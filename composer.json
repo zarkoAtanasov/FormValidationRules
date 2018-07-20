@@ -1,7 +1,22 @@
 {
+    "name": "zarkoatanasov/FormValidationRules",
+    "description": "Simple library for getting pre-built validation rules",
+    "keywords": [
+        "CodeIgniter",
+        "validation rules"
+    ],
+    "type": "package",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Elizar Atanasov",
+            "email": "zarko.atanasov@gmail.com"
+        }
+    ],
     "autoload": {
         "psr-4": {
-            "FormValidationRules\\": "src/"
+            "ZarkoAtanasov\\": "src/"
         }
-    }
+    },
+    "version": "dev-master"
 }
