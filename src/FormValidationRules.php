@@ -74,7 +74,7 @@ class FormValidationRules
      **/
     static protected function getFieldNameByAlias(String $key)
     {
-        $alias_array = include self::$config_path.'aliases.php';
+        $alias_array = self::getConfigFile('aliases');
 
         foreach ($alias_array as $field_name => $alias_list) {
 
@@ -113,7 +113,7 @@ class FormValidationRules
      **/
     static public function getRulesFromFile()
     {
-        $rules_array = include self::$config_path.'rules.php';
+        $rules_array = self::getConfigFile('rules');
 
         return $rules_array;
     }
@@ -125,9 +125,40 @@ class FormValidationRules
      **/
     static public function getDefaultExpectedFields()
     {
-        
-        $except_array = include self::$config_path.'except_fields.php';
+        $except_array = self::getConfigFile('except_fields');
 
         return $except_array;
-    }  
+    } 
+
+    /**
+     * Get configuration file by given name
+     *
+     * @param String $config_file the name of the configuration
+     * @return Array
+     * @throws Exception If conif path is not set or if its wrong
+     **/
+    
+    static public function getConfigFile($config_file) {
+        
+        if( !isset(self::$config_path) ) {
+            throw new Exception("Config path is not set or its wrong!", 1);
+        }
+
+        return include self::config_path.$config_file.'.php';
+    }
+
+    /**
+     * set Configuration path
+     *
+     * Set new configuration path if needed, default returns otherwise
+     *
+     * @param String $config_path Configuration path
+     * @return Void
+     **/
+    public function setConfigPath(String $new_config_path = '')
+    {
+        if($new_config_path !== '') {
+            self::$config_path == $new_config_path;
+        }
+    }
 }
