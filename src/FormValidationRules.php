@@ -6,9 +6,9 @@ class FormValidationRules
 {
 
     /** @var String $config_path default config path */
-    protected $config_path = './src/config/';
+    static protected $config_path = './src/config/';
     /** @var Array $rules All available rules by given data */
-    protected $rules = [];
+    static protected $rules = [];
 
 
     /**
@@ -18,12 +18,12 @@ class FormValidationRules
      * @param Array $except Except some fields
      * @return Array
      **/
-    public function getRulesByData($data,$except = [])
+    static public function getRulesByData($data,$except = [])
     {
         // set Rules before get them
-        $this->setRulesByData($data,$except);
+        self::setRulesByData($data,$except);
 
-        return $this->rules;
+        return self::$rules;
     }
 
     /**
@@ -36,11 +36,11 @@ class FormValidationRules
      * @param Array $except fields that will be excepted
      * @return Void
      **/
-    public function setRulesByData( Array $data = [], Array $except = [] )
+    static public function setRulesByData( Array $data = [], Array $except = [] )
     {
 
         // merge all excepted fields in one array
-        $except = array_merge($except,$this->getDefaultExpectedFields());
+        $except = array_merge($except,self::getDefaultExpectedFields());
 
         foreach ($data as $key => $value) {
 
@@ -49,15 +49,15 @@ class FormValidationRules
                 continue;
             }
 
-            $field_name = $this->getFieldNameByAlias($key);
+            $field_name = self::getFieldNameByAlias($key);
             if($field_name === '') {
                 $field_name = $key;
             }
 
-            $rules_by_field = $this->getRuleForField($field_name);
+            $rules_by_field = self::getRuleForField($field_name);
             if($rules_by_field)
             {
-                $this->rules[] = ['field'=>$field_name,'rules'=>$rules_by_field];
+                self::$rules[] = ['field'=>$field_name,'rules'=>$rules_by_field];
             }
         }
     }
@@ -72,9 +72,9 @@ class FormValidationRules
      * @param String $key 
      * @return String alias field name
      **/
-    protected function getFieldNameByAlias(String $key)
+    static protected function getFieldNameByAlias(String $key)
     {
-        $alias_array = include $this->config_path.'aliases.php';
+        $alias_array = include self::$config_path.'aliases.php';
 
         foreach ($alias_array as $field_name => $alias_list) {
 
@@ -95,9 +95,9 @@ class FormValidationRules
      * @param String $field 
      * @return Mixed
      **/
-    public function getRuleForField(String $field)
+    static public function getRuleForField(String $field)
     {
-        $rules_array = $this->getRulesFromFile();
+        $rules_array = self::getRulesFromFile();
 
         if( isset($rules_array[$field]) ) {
             $rules = $rules_array[$field];
@@ -111,9 +111,9 @@ class FormValidationRules
      *
      * @return Array
      **/
-    public function getRulesFromFile()
+    static public function getRulesFromFile()
     {
-        $rules_array = include $this->config_path.'rules.php';
+        $rules_array = include self::$config_path.'rules.php';
 
         return $rules_array;
     }
@@ -123,10 +123,10 @@ class FormValidationRules
      * 
      * @return Array
      **/
-    public function getDefaultExpectedFields()
+    static public function getDefaultExpectedFields()
     {
         
-        $except_array = include $this->config_path.'except_fields.php';
+        $except_array = include self::$config_path.'except_fields.php';
 
         return $except_array;
     }  
