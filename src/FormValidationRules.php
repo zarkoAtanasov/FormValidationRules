@@ -5,8 +5,9 @@ namespace FormValidationRules;
 class FormValidationRules 
 {
 
-
+    /** @var String $config_path default config path */
     protected $config_path = './src/config/';
+    /** @var Array $rules All available rules by given data */
     protected $rules = [];
 
 
@@ -14,12 +15,13 @@ class FormValidationRules
      * Return All matched rules as array
      *
      * @param Array $data Incomig fields from form
+     * @param Array $except Except some fields
      * @return Array
      **/
-    public function getRulesByData($data)
+    public function getRulesByData($data,$except = [])
     {
         // set Rules before get them
-        $this->setRulesByData($data);
+        $this->setRulesByData($data,$except);
 
         return $this->rules;
     }
@@ -31,12 +33,21 @@ class FormValidationRules
      * available rules.
      *
      * @param Array $data
+     * @param Array $except fields that will be excepted
      * @return Void
-     * @throws conditon
      **/
-    public function setRulesByData( Array $data = array() )
+    public function setRulesByData( Array $data = [], Array $except = [] )
     {
+
+        // merge all excepted fields in one array
+        $except = array_merge($except,$this->getDefaultExpectedFields());
+
         foreach ($data as $key => $value) {
+
+            // skip every field that is in except array
+            if(in_array($key,$except)) {
+                continue;
+            }
 
             $field_name = $this->getFieldNameByAlias($key);
             if($field_name === '') {
@@ -84,9 +95,9 @@ class FormValidationRules
      * @param String $field 
      * @return Mixed
      **/
-    public function getRuleForField(String $field='username')
+    public function getRuleForField(String $field)
     {
-        $rules_array = include $this->config_path.'rules.php';
+        $rules_array = $this->getRulesFromFile();
 
         if( isset($rules_array[$field]) ) {
             $rules = $rules_array[$field];
@@ -95,4 +106,28 @@ class FormValidationRules
         return $rules;
     }
 
+    /**
+     * Get Rules delcared in file and return them as array
+     *
+     * @return Array
+     **/
+    public function getRulesFromFile()
+    {
+        $rules_array = include $this->config_path.'rules.php';
+
+        return $rules_array;
+    }
+
+    /**
+     * get Expect fields set by default in config file
+     * 
+     * @return Array
+     **/
+    public function getDefaultExpectedFields()
+    {
+        
+        $except_array = include $this->config_path.'except_fields.php';
+
+        return $except_array;
+    }  
 }

@@ -13,5 +13,4 @@ $data = [
     'username'=>'moito Ime',
 ];
 
-
 print_r($rules->getRulesByData($data));
