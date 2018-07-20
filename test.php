@@ -2,10 +2,8 @@
 
 require_once 'vendor/autoload.php';
 
-use FormValidationRules\FormValidationRules as Rules;
+use FormValidationRules\FormValidationRules as FVR;
 
-
-$rules = new Rules();
 
 $data = [
     'mail'=>'goshko@abv.bg',
@@ -13,4 +11,4 @@ $data = [
     'username'=>'moito Ime',
 ];
 
-print_r($rules->getRulesByData($data));
+print_r(FVR::getRulesByData($data));

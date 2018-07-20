@@ -1,6 +1,19 @@
 <?php
+/*
+|--------------------------------------------------------------------------
+| ALIASES FOR FIELDS
+|--------------------------------------------------------------------------
+|
+| This file provides aliases for common fields.
+| In different projects the name of the same field may be different,
+| but validation rules for it - same.
+|
+| Here you can add new or expand fields aliases
+|
+*/
 
 return [
+    
     'username'=>'user_name',
     'firstname'=>'first_name',
     'lastname'=>'last_name|family_name',
