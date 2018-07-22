@@ -10,7 +10,7 @@ class Fvr extends FormValidationRules
         // Set CI default config path
         $new_path = APPPATH.'config'.DIRECTORY_SEPARATOR;
 
-        self::setConfigPath($new_path);
+        self::getConfigFile($new_path);
     }
 }
 

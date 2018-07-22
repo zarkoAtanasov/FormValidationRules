@@ -22,4 +22,9 @@ return [
     'password'=>'required|min_length[6]',
     'repeat_password'=>'required|matches[password]',
     'phone'=>'required|regex_match[/^(\+?)[0-9]{6,12}$/]',
+    'message'=>'required|trim|min_length[10]|max_length[512]',
+    'name'=>'required',
+    'address'=>'required',
+    'street'=>'required',
+
 ];
