@@ -2,7 +2,7 @@
 
 require_once 'vendor/autoload.php';
 
-use FormValidationRules\FormValidationRules as FVR;
+use ZarkoAtanasov\FormValidationRules as FVR;
 
 
 $data = [

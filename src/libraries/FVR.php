@@ -1,14 +1,15 @@
 <?php if (!defined('BASEPATH')) exit('No direct script access allowed');
 
 use ZarkoAtanasov\FormValidationRules;
-
 class Fvr extends FormValidationRules
 {
     public $CI;
 
     public function __construct()
     {
-        $new_path = '/config/';
+        // Set CI default config path
+        $new_path = APPPATH.'config'.DIRECTORY_SEPARATOR;
+
         self::setConfigPath($new_path);
     }
 }

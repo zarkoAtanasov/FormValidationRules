@@ -1,16 +1,14 @@
 <?php
 
-namespace FormValidationRules;
+namespace ZarkoAtanasov;
 
 class FormValidationRules 
 {
 
     /** @var String $config_path default config path */
-    static protected $config_path = './src/config/';
+    static protected $config_path = 'config/';
     /** @var Array $rules All available rules by given data */
     static protected $rules = [];
-
-
     /**
      * Return All matched rules as array
      *
@@ -43,15 +41,15 @@ class FormValidationRules
         $except = array_merge($except,self::getDefaultExpectedFields());
 
         foreach ($data as $key => $value) {
-
-            // skip every field that is in except array
-            if(in_array($key,$except)) {
-                continue;
-            }
-
+           
             $field_name = self::getFieldNameByAlias($key);
             if($field_name === '') {
                 $field_name = $key;
+            }
+
+             // skip every field that is in except array
+             if(in_array($field_name,$except)) {
+                continue;
             }
 
             $rules_by_field = self::getRuleForField($field_name);
@@ -98,7 +96,7 @@ class FormValidationRules
     static public function getRuleForField(String $field)
     {
         $rules_array = self::getRulesFromFile();
-
+        $rules = [];
         if( isset($rules_array[$field]) ) {
             $rules = $rules_array[$field];
         }
@@ -114,7 +112,7 @@ class FormValidationRules
     static public function getRulesFromFile()
     {
         $rules_array = self::getConfigFile('rules');
-
+        
         return $rules_array;
     }
 
@@ -144,7 +142,7 @@ class FormValidationRules
             throw new Exception("Config path is not set or its wrong!", 1);
         }
 
-        return include self::config_path.$config_file.'.php';
+        return include self::$config_path.$config_file.'.php';
     }
 
     /**
@@ -158,7 +156,7 @@ class FormValidationRules
     public function setConfigPath(String $new_config_path = '')
     {
         if($new_config_path !== '') {
-            self::$config_path == $new_config_path;
+            self::$config_path = $new_config_path;
         }
     }
 }
